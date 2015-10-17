@@ -3,47 +3,20 @@ package BlackBone::LEDS;
 use strict;
 use warnings;
 
-use File::Spec;
-use BlackBone::LEDS::LED;
-
-my $LEDS_SYS_PATH = '/sys/class/leds';
-
-my %_saved;
-
-################################################################################
-sub all {
-  return map { new BlackBone::LEDS::LED($_) } glob($LEDS_SYS_PATH . '/*');
-}
-
-################################################################################
-sub get {
-  my ($name) = @_;
-
-  my $path = File::Spec->catfile($LEDS_SYS_PATH, $name);
-
-  # TODO some better error handling
-  -e $path or die;
-
-  return new BlackBone::LEDS::LED($path);
-}
-
-################################################################################
-sub save_all { save(all()); }
+my @_saved = ( );
 
 ################################################################################
 sub save {
-  for my $led (@_) {
-    $_saved{$led->name()} = $led->save();
+  foreach my $led (@_) {
+    my @state = ( $led, $led->save() );
+    push @_saved, \@state;
   }
 }
 
 ################################################################################
 sub restore {
-  for my $name (keys %_saved) {
-    my $led = get($name);
-    my $state = $_saved{$name};
-
-    $led->restore($state);
+  foreach my $save (@_saved) {
+    $save->[0]->restore($save->[1]);
   }
 }
 

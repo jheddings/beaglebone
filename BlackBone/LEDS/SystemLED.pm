@@ -63,15 +63,15 @@ sub blink {
 
   $self->trigger('timer');
 
-  BlackBone::IO::write_file($self->{device} . '/delay_on', $on_ms);
-  BlackBone::IO::write_file($self->{device} . '/delay_off', $off_ms);
+  BlackBone::IO::write_file($self->syspath('delay_on'), $on_ms);
+  BlackBone::IO::write_file($self->syspath('delay_off'), $off_ms);
 }
 
 ################################################################################
 sub max_bright {
   my $self = shift;
 
-  my $sysname = $self->{device} . '/max_brightness';
+  my $sysname = $self->syspath('max_brightness');
 
   my $max_bright = BlackBone::IO::read_file($sysname);
   $max_bright =~ m/(\d+)/;
@@ -83,7 +83,7 @@ sub max_bright {
 sub brightness {
   my ($self, $bright) = @_;
 
-  my $sysname = $self->{device} . '/brightness';
+  my $sysname = $self->syspath('brightness');
 
   # if the user set the brightness, write it here
   if (defined $bright and length $bright) {
@@ -100,7 +100,7 @@ sub brightness {
 sub trigger {
   my ($self, $trigger) = @_;
 
-  my $sysname = $self->{device} . '/trigger';
+  my $sysname = $self->syspath('trigger');
 
   # if the user set the trigger, write it here
   if ($trigger) {
@@ -138,6 +138,13 @@ sub restore {
   $self->brightness($state->{bright});
 
   # TODO handle timer, delay_X, etc
+}
+
+################################################################################
+sub syspath {
+  my ($self, $name) = @_;
+
+  return File::Spec->catfile($self->{device}, $name);
 }
 
 ################################################################################

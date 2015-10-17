@@ -23,7 +23,7 @@ sub get {
 
   my $path = File::Spec->catfile($LEDS_SYS_PATH, $name);
 
-  # TODO some better error handling
+  # TODO better error handling
   -e $path or die;
 
   return new BlackBone::LEDS::SystemLED($path);

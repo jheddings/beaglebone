@@ -7,7 +7,7 @@ use warnings;
 sub write_file {
   my $file = shift;
 
-  open(my $fh, '>', $file) or die "Could not file for writing '$file': $!";
+  open(my $fh, '>', $file) or die "Could not open file for writing '$file': $!";
 
   print $fh @_;
 
@@ -19,7 +19,7 @@ sub read_file {
   my $file = shift;
   local $/= undef;
 
-  open(my $fh, '<', $file) or die "Could not file for reading '$file': $!";
+  open(my $fh, '<', $file) or die "Could not open file for reading '$file': $!";
 
   my $text = <$fh>;
 

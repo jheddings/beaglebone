@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use File::Basename;
+use BlackBone::IO;
 
 use overload '""' => \&to_string;
 
@@ -20,27 +21,6 @@ sub new {
 }
 
 ################################################################################
-sub _write_device {
-  my ($device, $text) = @_;
-
-  open(my $fh, '>', $device) or die "Could not device for writing '$device': $!";
-  print $fh $text;
-  close($fh);
-}
-
-################################################################################
-sub _read_device {
-  my ($device) = @_;
-
-  open(my $fh, '<', $device) or die "Could not device for reading '$device': $!";
-  my $text = <$fh>;
-  chomp($text);
-  close($fh);
-
-  return $text;
-}
-
-################################################################################
 sub name {
   my $self = shift;
 
@@ -54,15 +34,15 @@ sub on {
   my $sys_bri = $self->{device} . '/brightness';
   my $sys_max = $self->{device} . '/max_brightness';
 
-  my $max = _read_device($sys_max);
-  _write_device($sys_bri, $max);
+  my $max = BlackBone::IO::read_file($sys_max);
+  BlackBone::IO::write_file($sys_bri, $max);
 }
 
 ################################################################################
 sub off {
   my $self = shift;
 
-  _write_device($self->{device} . '/brightness', "0\n");
+  BlackBone::IO::write_file($self->{device} . '/brightness', "0\n");
 }
 
 ################################################################################
@@ -72,9 +52,9 @@ sub brightness {
   my $sysname = $self->{device} . '/brightness';
 
   # if the user set the brightness, write it here
-  if ($bri) { _write_device($sysname, $bri); }
+  if ($bri) { BlackBone::IO::write_file($sysname, $bri); }
 
-  return _read_device($sysname);
+  return BlackBone::IO::read_file($sysname);
 }
 
 ################################################################################
@@ -84,10 +64,10 @@ sub trigger {
   my $sysname = $self->{device} . '/trigger';
 
   # if the user set the trigger, write it here
-  if ($trigger) { _write_device($sysname, $trigger); }
+  if ($trigger) { BlackBone::IO::write_file($sysname, $trigger); }
 
   # parse the trigger entry (brackets around the current value)
-  $trigger = _read_device($sysname);
+  $trigger = BlackBone::IO::read_file($sysname);
   $trigger =~ s/.*\[(.*)\].*/$1/gm;
 
   return $trigger;
@@ -119,4 +99,4 @@ sub to_string {
   return $self->name();
 }
 
-1;
+1;  ## EOM

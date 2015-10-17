@@ -42,8 +42,9 @@ sub restore {
   for my $name (keys %_saved) {
     my $led = get($name);
     my $state = $_saved{$name};
+
     $led->restore($state);
   }
 }
 
-1;
+1;  ## EOM

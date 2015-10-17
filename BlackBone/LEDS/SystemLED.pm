@@ -45,18 +45,38 @@ sub new {
 sub on {
   my $self = shift;
 
-  my $sys_bri = $self->{device} . '/brightness';
-  my $sys_max = $self->{device} . '/max_brightness';
-
-  my $max = BlackBone::IO::read_file($sys_max);
-  BlackBone::IO::write_file($sys_bri, $max);
+  $self->trigger('none');
+  $self->brightness($self->max_bright);
 }
 
 ################################################################################
 sub off {
   my $self = shift;
 
-  BlackBone::IO::write_file($self->{device} . '/brightness', "0");
+  $self->trigger('none');
+  $self->brightness("0");
+}
+
+################################################################################
+sub blink {
+  my ($self, $on_ms, $off_ms) = @_;
+
+  $self->trigger('timer');
+
+  BlackBone::IO::write_file($self->{device} . '/delay_on', $on_ms);
+  BlackBone::IO::write_file($self->{device} . '/delay_off', $off_ms);
+}
+
+################################################################################
+sub max_bright {
+  my $self = shift;
+
+  my $sysname = $self->{device} . '/max_brightness';
+
+  my $max_bright = BlackBone::IO::read_file($sysname);
+  $max_bright =~ m/(\d+)/;
+
+  return $1;
 }
 
 ################################################################################
@@ -66,7 +86,7 @@ sub brightness {
   my $sysname = $self->{device} . '/brightness';
 
   # if the user set the brightness, write it here
-  if ($bright) {
+  if (defined $bright and length $bright) {
     BlackBone::IO::write_file($sysname, $bright);
   }
 
@@ -99,10 +119,14 @@ sub trigger {
 sub save {
   my $self = shift;
 
-  return {
-    trigger => $self->trigger(),
-    bright => $self->brightness()
+  my $state = {
+    trigger => $self->trigger,
+    bright => $self->brightness
   };
+
+  # TODO handle delay_on and delay_off
+
+  return $state;
 }
 
 ################################################################################
@@ -112,12 +136,14 @@ sub restore {
 
   $self->trigger($state->{trigger});
   $self->brightness($state->{bright});
+
+  # TODO handle timer, delay_X, etc
 }
 
 ################################################################################
 sub to_string {
   my $self = shift;
-  return $self->name();
+  return $self->name;
 }
 
 1;  ## EOM

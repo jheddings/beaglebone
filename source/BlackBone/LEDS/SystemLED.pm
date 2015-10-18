@@ -6,7 +6,7 @@ use warnings;
 
 use File::Spec;
 use File::Basename;
-use BlackBone::IO;
+use BlackBone::File;
 
 my $LEDS_SYS_PATH = '/sys/class/leds';
 
@@ -63,8 +63,8 @@ sub blink {
 
   $self->trigger('timer');
 
-  BlackBone::IO::write_file($self->syspath('delay_on'), $on_ms);
-  BlackBone::IO::write_file($self->syspath('delay_off'), $off_ms);
+  BlackBone::File::write_file($self->syspath('delay_on'), $on_ms);
+  BlackBone::File::write_file($self->syspath('delay_off'), $off_ms);
 }
 
 ################################################################################
@@ -73,7 +73,7 @@ sub max_bright {
 
   my $sysname = $self->syspath('max_brightness');
 
-  my $max_bright = BlackBone::IO::read_file($sysname);
+  my $max_bright = BlackBone::File::read_file($sysname);
   $max_bright =~ m/(\d+)/;
 
   return $1;
@@ -87,10 +87,10 @@ sub brightness {
 
   # if the user set the brightness, write it here
   if (defined $bright and length $bright) {
-    BlackBone::IO::write_file($sysname, $bright);
+    BlackBone::File::write_file($sysname, $bright);
   }
 
-  $bright = BlackBone::IO::read_file($sysname);
+  $bright = BlackBone::File::read_file($sysname);
   $bright =~ m/(\d+)/;
 
   return $1;
@@ -104,11 +104,11 @@ sub trigger {
 
   # if the user set the trigger, write it here
   if ($trigger) {
-    BlackBone::IO::write_file($sysname, $trigger);
+    BlackBone::File::write_file($sysname, $trigger);
   }
 
   # parse the trigger entry (brackets around the current value)
-  $trigger = BlackBone::IO::read_file($sysname);
+  $trigger = BlackBone::File::read_file($sysname);
   $trigger =~ m/\[(.*)\]/;
 
   return $1;

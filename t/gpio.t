@@ -22,9 +22,10 @@ sub read_value {
 }
 
 ################################################################################
+# XXX this is a 'safe' pin to mess with on a stock BeagleBone
 my $pin = BlackBone::GPIO::export('P9.12');
-$pin->direction('out');
 
+$pin->direction('out');
 ok($pin->direction eq 'out', 'pin direction read back as out');
 ok(read_direction($pin) eq 'out', 'pin sysfs direction is out');
 

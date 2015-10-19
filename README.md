@@ -5,8 +5,9 @@ Support library for BeagleBone projects in Perl.
 
 To install this module, do the following:
 
-> perl Makefile.PL
-> make
-> make test
-> make install
-
+```
+perl Makefile.PL
+make
+make test
+make install
+```

@@ -1,1 +1,8 @@
 scratch.pl
+
+# generated files
+Makefile
+Makefile.old
+MYMETA.*
+blib
+pm_to_blib

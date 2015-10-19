@@ -31,12 +31,12 @@ sub get {
 
 ################################################################################
 sub new {
-  my ($class, $device) = @_;
+  my ($class, $sysroot) = @_;
 
-  my $name = basename($device);
+  my $name = basename($sysroot);
 
   my $self = $class->SUPER::new($name);
-  $self->{device} = $device;
+  $self->{sysroot} = $sysroot;
 
   return $self;
 }
@@ -58,6 +58,12 @@ sub off {
 }
 
 ################################################################################
+sub is_on {
+  my $self = shift;
+  return $self->brightness gt 0;
+}
+
+################################################################################
 sub blink {
   my ($self, $on_ms, $off_ms) = @_;
 
@@ -71,54 +77,45 @@ sub blink {
 sub max_bright {
   my $self = shift;
 
-  my $sysname = $self->syspath('max_brightness');
+  my $syspath = $self->syspath('max_brightness');
 
-  my $max_bright = BlackBone::File::read_file($sysname);
-  $max_bright =~ m/(\d+)/;
-
-  return $1;
+  return BlackBone::File::read_int($syspath);
 }
 
 ################################################################################
 sub brightness {
   my ($self, $bright) = @_;
 
-  my $sysname = $self->syspath('brightness');
+  my $syspath = $self->syspath('brightness');
 
   # if the user set the brightness, write it here
   if (defined $bright and length $bright) {
-    BlackBone::File::write_file($sysname, $bright);
+    BlackBone::File::write_file($syspath, $bright);
   }
 
-  $bright = BlackBone::File::read_file($sysname);
-  $bright =~ m/(\d+)/;
-
-  return $1;
+  return BlackBone::File::read_int($syspath);
 }
 
 ################################################################################
 sub trigger {
   my ($self, $trigger) = @_;
 
-  my $sysname = $self->syspath('trigger');
+  my $syspath = $self->syspath('trigger');
 
   # if the user set the trigger, write it here
   if ($trigger) {
-    BlackBone::File::write_file($sysname, $trigger);
+    BlackBone::File::write_file($syspath, $trigger);
   }
 
-  # parse the trigger entry (brackets around the current value)
-  $trigger = BlackBone::File::read_file($sysname);
-  $trigger =~ m/\[(.*)\]/;
-
-  return $1;
+  # the trigger entry has brackets around the current value
+  return BlackBone::File::read_expr($syspath, qr/\[(.*)\]/);
 }
 
 ################################################################################
 sub syspath {
   my ($self, $name) = @_;
 
-  return File::Spec->catfile($self->{device}, $name);
+  return File::Spec->catfile($self->{sysroot}, $name);
 }
 
 ################################################################################

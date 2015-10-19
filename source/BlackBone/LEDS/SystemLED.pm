@@ -115,32 +115,6 @@ sub trigger {
 }
 
 ################################################################################
-# return an object representing the LED's current state, suitable for restoring
-sub save {
-  my $self = shift;
-
-  my $state = {
-    trigger => $self->trigger,
-    bright => $self->brightness
-  };
-
-  # TODO handle delay_on and delay_off
-
-  return $state;
-}
-
-################################################################################
-# restore this LED to the given state, previously returned by save()
-sub restore {
-  my ($self, $state) = @_;
-
-  $self->trigger($state->{trigger});
-  $self->brightness($state->{bright});
-
-  # TODO handle timer, delay_X, etc
-}
-
-################################################################################
 sub syspath {
   my ($self, $name) = @_;
 

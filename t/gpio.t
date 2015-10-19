@@ -11,14 +11,14 @@ use Device::BeagleBone::Black::GPIO;
 sub read_direction {
   my $pin = shift;
   my $syspath = $pin->{sysroot} . '/direction';
-  return Device::BeagleBone::Black::File::read_word($syspath);
+  return Device::BeagleBone::Util::SysFS::read_word($syspath);
 }
 
 ################################################################################
 sub read_value {
   my $pin = shift;
   my $syspath = $pin->{sysroot} . '/value';
-  return Device::BeagleBone::Black::File::read_int($syspath);
+  return Device::BeagleBone::Util::SysFS::read_int($syspath);
 }
 
 ################################################################################

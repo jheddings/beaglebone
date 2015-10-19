@@ -12,28 +12,28 @@ use Device::BeagleBone::Black::LEDS::SystemLED;
 sub read_trigger {
   my $led = shift;
   my $syspath = $led->{sysroot} . '/trigger';
-  return Device::BeagleBone::Black::File::read_expr($syspath, qr/\[(.*)\]/);
+  return Device::BeagleBone::Util::SysFS::read_expr($syspath, qr/\[(.*)\]/);
 }
 
 ################################################################################
 sub read_bright {
   my $led = shift;
   my $syspath = $led->{sysroot} . '/brightness';
-  return Device::BeagleBone::Black::File::read_int($syspath);
+  return Device::BeagleBone::Util::SysFS::read_int($syspath);
 }
 
 ################################################################################
 sub read_delay_on {
   my $led = shift;
   my $syspath = $led->{sysroot} . '/delay_on';
-  return Device::BeagleBone::Black::File::read_int($syspath);
+  return Device::BeagleBone::Util::SysFS::read_int($syspath);
 }
 
 ################################################################################
 sub read_delay_off {
   my $led = shift;
   my $syspath = $led->{sysroot} . '/delay_off';
-  return Device::BeagleBone::Black::File::read_int($syspath);
+  return Device::BeagleBone::Util::SysFS::read_int($syspath);
 }
 
 ################################################################################

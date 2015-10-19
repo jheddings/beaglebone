@@ -1,4 +1,4 @@
-package Device::BeagleBone::Black::File;
+package Device::BeagleBone::Util::SysFS;
 
 use strict;
 use warnings;

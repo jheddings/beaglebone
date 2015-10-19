@@ -3,7 +3,7 @@ package Device::BeagleBone::Black::GPIO;
 use strict;
 use warnings;
 
-use Device::BeagleBone::Black::File;
+use Device::BeagleBone::Util::SysFS;
 use Device::BeagleBone::Black::GPIO::Pin;
 
 my $pinmap = require Device::BeagleBone::Black::GPIO::PinMap;
@@ -19,7 +19,7 @@ sub export {
   my $gpio = $pindef->{gpio};
 
   # enable the GPIO entries in sysfs
-  Device::BeagleBone::Black::File::write_file("$GPIO_SYS_PATH/export", $gpio);
+  Device::BeagleBone::Util::SysFS::write_file("$GPIO_SYS_PATH/export", $gpio);
 
   my $syspath = "$GPIO_SYS_PATH/gpio$gpio";
   my $pin = new Device::BeagleBone::Black::GPIO::Pin($syspath);
@@ -39,7 +39,7 @@ sub unexport {
   my $gpio = $pindef->{gpio};
 
   # enable the GPIO entries in sysfs
-  Device::BeagleBone::Black::File::write_file("$GPIO_SYS_PATH/unexport", $gpio);
+  Device::BeagleBone::Util::SysFS::write_file("$GPIO_SYS_PATH/unexport", $gpio);
 }
 
 1;  ## EOM

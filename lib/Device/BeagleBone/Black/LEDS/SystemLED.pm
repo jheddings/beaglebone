@@ -5,7 +5,7 @@ use strict;
 use warnings;
 
 use File::Basename;
-use Device::BeagleBone::Black::File;
+use Device::BeagleBone::Util::SysFS;
 
 my $LEDS_SYS_PATH = '/sys/class/leds';
 
@@ -65,8 +65,8 @@ sub blink {
   # we need to set the trigger to ensure the delay_X entries appear
   $self->trigger('timer');
 
-  Device::BeagleBone::Black::File::write_file($self->{sysroot} . '/delay_on', $on_ms);
-  Device::BeagleBone::Black::File::write_file($self->{sysroot} . '/delay_off', $off_ms);
+  Device::BeagleBone::Util::SysFS::write_file($self->{sysroot} . '/delay_on', $on_ms);
+  Device::BeagleBone::Util::SysFS::write_file($self->{sysroot} . '/delay_off', $off_ms);
 }
 
 ################################################################################
@@ -75,7 +75,7 @@ sub max_bright {
 
   my $syspath = $self->{sysroot} . '/max_brightness';
 
-  return Device::BeagleBone::Black::File::read_int($syspath);
+  return Device::BeagleBone::Util::SysFS::read_int($syspath);
 }
 
 ################################################################################
@@ -86,10 +86,10 @@ sub brightness {
 
   # if the user set the brightness, write it here
   if (defined $bright and length $bright) {
-    Device::BeagleBone::Black::File::write_file($syspath, $bright);
+    Device::BeagleBone::Util::SysFS::write_file($syspath, $bright);
   }
 
-  return Device::BeagleBone::Black::File::read_int($syspath);
+  return Device::BeagleBone::Util::SysFS::read_int($syspath);
 }
 
 ################################################################################
@@ -100,11 +100,11 @@ sub trigger {
 
   # if the user set the trigger, write it here
   if ($trigger) {
-    Device::BeagleBone::Black::File::write_file($syspath, $trigger);
+    Device::BeagleBone::Util::SysFS::write_file($syspath, $trigger);
   }
 
   # the trigger entry has brackets around the current value
-  return Device::BeagleBone::Black::File::read_expr($syspath, qr/\[(.*)\]/);
+  return Device::BeagleBone::Util::SysFS::read_expr($syspath, qr/\[(.*)\]/);
 }
 
 ################################################################################

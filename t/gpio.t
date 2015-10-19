@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::Simple tests => 8;
+use Test::Simple tests => 10;
 
 use BlackBone::GPIO;
 
@@ -22,8 +22,14 @@ sub read_value {
 }
 
 ################################################################################
+
 # XXX this is a 'safe' pin to mess with on a stock BeagleBone
-my $pin = BlackBone::GPIO::export('P9.12');
+my $pin_name = 'P9.12';
+
+my $pin = BlackBone::GPIO::export($pin_name);
+
+my $gpio = $pin->{pindef}->{gpio};
+ok(-e "/sys/class/gpio/gpio$gpio", "gpio $gpio is visible");
 
 $pin->direction('out');
 ok($pin->direction eq 'out', 'pin direction read back as out');
@@ -40,4 +46,7 @@ ok(read_value($pin), 'pin sysfs value is high');
 $pin->low();
 ok(! $pin->value, 'pin is low');
 ok(! read_value($pin), 'pin sysfs value is low');
+
+BlackBone::GPIO::unexport($pin_name);
+ok(! -e "/sys/class/gpio/gpio$gpio", "gpio $gpio is invisible");
 

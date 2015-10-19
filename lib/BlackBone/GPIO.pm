@@ -22,7 +22,24 @@ sub export {
   BlackBone::File::write_file("$GPIO_SYS_PATH/export", $gpio);
 
   my $syspath = "$GPIO_SYS_PATH/gpio$gpio";
-  return new BlackBone::GPIO::Pin($syspath);
+  my $pin = new BlackBone::GPIO::Pin($syspath);
+
+  # attach the pindef reference
+  $pin->{pindef} = $pindef;
+
+  return $pin;
+}
+
+################################################################################
+sub unexport {
+  my $name = shift;
+
+  # TODO better error checking
+  my $pindef = $pinmap->{$name};
+  my $gpio = $pindef->{gpio};
+
+  # enable the GPIO entries in sysfs
+  BlackBone::File::write_file("$GPIO_SYS_PATH/unexport", $gpio);
 }
 
 1;  ## EOM

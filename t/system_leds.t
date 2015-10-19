@@ -5,39 +5,39 @@ use warnings;
 
 use Test::Simple tests => 13;
 
-use BlackBone::LEDS;
-use BlackBone::LEDS::SystemLED;
+use Device::BeagleBone::Black::LEDS;
+use Device::BeagleBone::Black::LEDS::SystemLED;
 
 ################################################################################
 sub read_trigger {
   my $led = shift;
   my $syspath = $led->{sysroot} . '/trigger';
-  return BlackBone::File::read_expr($syspath, qr/\[(.*)\]/);
+  return Device::BeagleBone::Black::File::read_expr($syspath, qr/\[(.*)\]/);
 }
 
 ################################################################################
 sub read_bright {
   my $led = shift;
   my $syspath = $led->{sysroot} . '/brightness';
-  return BlackBone::File::read_int($syspath);
+  return Device::BeagleBone::Black::File::read_int($syspath);
 }
 
 ################################################################################
 sub read_delay_on {
   my $led = shift;
   my $syspath = $led->{sysroot} . '/delay_on';
-  return BlackBone::File::read_int($syspath);
+  return Device::BeagleBone::Black::File::read_int($syspath);
 }
 
 ################################################################################
 sub read_delay_off {
   my $led = shift;
   my $syspath = $led->{sysroot} . '/delay_off';
-  return BlackBone::File::read_int($syspath);
+  return Device::BeagleBone::Black::File::read_int($syspath);
 }
 
 ################################################################################
-my $usr0_led = BlackBone::LEDS::SystemLED::get('beaglebone:green:usr0');
+my $usr0_led = Device::BeagleBone::Black::LEDS::SystemLED::get('beaglebone:green:usr0');
 
 $usr0_led->trigger('none');
 ok($usr0_led->trigger eq 'none', 'usr0_led trigger read back as none');
@@ -50,7 +50,7 @@ $usr0_led->off();
 ok(read_bright($usr0_led) eq 0, 'usr0_led is off');
 
 ################################################################################
-my $usr1_led = BlackBone::LEDS::SystemLED::get('beaglebone:green:usr1');
+my $usr1_led = Device::BeagleBone::Black::LEDS::SystemLED::get('beaglebone:green:usr1');
 
 $usr1_led->blink(763, 384);
 
@@ -69,16 +69,16 @@ select(undef, undef, undef, 0.500);
 ok($usr1_is_on ne $usr1_led->is_on, 'usr1_led blinked');
 
 ################################################################################
-my $usr2_led = BlackBone::LEDS::SystemLED::get('beaglebone:green:usr2');
+my $usr2_led = Device::BeagleBone::Black::LEDS::SystemLED::get('beaglebone:green:usr2');
 $usr2_led->trigger('none');
 
 ################################################################################
-my $usr3_led = BlackBone::LEDS::SystemLED::get('beaglebone:green:usr3');
+my $usr3_led = Device::BeagleBone::Black::LEDS::SystemLED::get('beaglebone:green:usr3');
 $usr3_led->trigger('none');
 
 ################################################################################
 ## CLEANUP
-BlackBone::LEDS::restore_defaults();
+Device::BeagleBone::Black::LEDS::restore_defaults();
 ok($usr0_led->trigger eq 'heartbeat', 'usr0_led trigger reset to heartbeat');
 ok($usr1_led->trigger eq 'mmc0', 'usr1_led trigger reset to mmc0');
 ok($usr2_led->trigger eq 'cpu0', 'usr2_led trigger reset to cpu0');

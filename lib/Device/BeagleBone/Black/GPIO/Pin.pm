@@ -1,9 +1,9 @@
-package BlackBone::GPIO::Pin;
+package Device::BeagleBone::Black::GPIO::Pin;
 
 use strict;
 use warnings;
 
-use BlackBone::File;
+use Device::BeagleBone::Black::File;
 
 ################################################################################
 sub new {
@@ -49,10 +49,10 @@ sub _regwr {
 
   # if the user set a value, write it here
   if (defined $val and length $val) {
-    BlackBone::File::write_file($syspath, $val);
+    Device::BeagleBone::Black::File::write_file($syspath, $val);
   }
 
-  return BlackBone::File::read_word($syspath);
+  return Device::BeagleBone::Black::File::read_word($syspath);
 }
 
 1;  ## EOM

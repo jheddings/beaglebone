@@ -1,12 +1,12 @@
-package BlackBone::GPIO;
+package Device::BeagleBone::Black::GPIO;
 
 use strict;
 use warnings;
 
-use BlackBone::File;
-use BlackBone::GPIO::Pin;
+use Device::BeagleBone::Black::File;
+use Device::BeagleBone::Black::GPIO::Pin;
 
-my $pinmap = require BlackBone::GPIO::PinMap;
+my $pinmap = require Device::BeagleBone::Black::GPIO::PinMap;
 
 my $GPIO_SYS_PATH = '/sys/class/gpio';
 
@@ -19,10 +19,10 @@ sub export {
   my $gpio = $pindef->{gpio};
 
   # enable the GPIO entries in sysfs
-  BlackBone::File::write_file("$GPIO_SYS_PATH/export", $gpio);
+  Device::BeagleBone::Black::File::write_file("$GPIO_SYS_PATH/export", $gpio);
 
   my $syspath = "$GPIO_SYS_PATH/gpio$gpio";
-  my $pin = new BlackBone::GPIO::Pin($syspath);
+  my $pin = new Device::BeagleBone::Black::GPIO::Pin($syspath);
 
   # attach the pindef reference
   $pin->{pindef} = $pindef;
@@ -39,7 +39,7 @@ sub unexport {
   my $gpio = $pindef->{gpio};
 
   # enable the GPIO entries in sysfs
-  BlackBone::File::write_file("$GPIO_SYS_PATH/unexport", $gpio);
+  Device::BeagleBone::Black::File::write_file("$GPIO_SYS_PATH/unexport", $gpio);
 }
 
 1;  ## EOM

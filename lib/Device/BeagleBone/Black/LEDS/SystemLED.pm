@@ -1,11 +1,11 @@
-package BlackBone::LEDS::SystemLED;
-use base qw(BlackBone::LEDS::LED);
+package Device::BeagleBone::Black::LEDS::SystemLED;
+use base qw(Device::BeagleBone::Black::LEDS::LED);
 
 use strict;
 use warnings;
 
 use File::Basename;
-use BlackBone::File;
+use Device::BeagleBone::Black::File;
 
 my $LEDS_SYS_PATH = '/sys/class/leds';
 
@@ -13,7 +13,7 @@ use overload '""' => \&to_string;
 
 ################################################################################
 sub all {
-  return map { new BlackBone::LEDS::SystemLED($_) } glob($LEDS_SYS_PATH . '/*');
+  return map { new Device::BeagleBone::Black::LEDS::SystemLED($_) } glob($LEDS_SYS_PATH . '/*');
 }
 
 ################################################################################
@@ -25,7 +25,7 @@ sub get {
   # TODO better error handling
   -e $sysroot or die;
 
-  return new BlackBone::LEDS::SystemLED($sysroot);
+  return new Device::BeagleBone::Black::LEDS::SystemLED($sysroot);
 }
 
 ################################################################################
@@ -65,8 +65,8 @@ sub blink {
   # we need to set the trigger to ensure the delay_X entries appear
   $self->trigger('timer');
 
-  BlackBone::File::write_file($self->{sysroot} . '/delay_on', $on_ms);
-  BlackBone::File::write_file($self->{sysroot} . '/delay_off', $off_ms);
+  Device::BeagleBone::Black::File::write_file($self->{sysroot} . '/delay_on', $on_ms);
+  Device::BeagleBone::Black::File::write_file($self->{sysroot} . '/delay_off', $off_ms);
 }
 
 ################################################################################
@@ -75,7 +75,7 @@ sub max_bright {
 
   my $syspath = $self->{sysroot} . '/max_brightness';
 
-  return BlackBone::File::read_int($syspath);
+  return Device::BeagleBone::Black::File::read_int($syspath);
 }
 
 ################################################################################
@@ -86,10 +86,10 @@ sub brightness {
 
   # if the user set the brightness, write it here
   if (defined $bright and length $bright) {
-    BlackBone::File::write_file($syspath, $bright);
+    Device::BeagleBone::Black::File::write_file($syspath, $bright);
   }
 
-  return BlackBone::File::read_int($syspath);
+  return Device::BeagleBone::Black::File::read_int($syspath);
 }
 
 ################################################################################
@@ -100,11 +100,11 @@ sub trigger {
 
   # if the user set the trigger, write it here
   if ($trigger) {
-    BlackBone::File::write_file($syspath, $trigger);
+    Device::BeagleBone::Black::File::write_file($syspath, $trigger);
   }
 
   # the trigger entry has brackets around the current value
-  return BlackBone::File::read_expr($syspath, qr/\[(.*)\]/);
+  return Device::BeagleBone::Black::File::read_expr($syspath, qr/\[(.*)\]/);
 }
 
 ################################################################################

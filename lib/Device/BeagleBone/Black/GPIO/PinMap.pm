@@ -1,4 +1,4 @@
-package BlackBone::GPIO::PinMap;
+package Device::BeagleBone::Black::GPIO::PinMap;
 
 my $pinmap = {
   'USR0' => { gpio => 53, name => 'USR0' },

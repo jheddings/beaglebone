@@ -5,20 +5,20 @@ use warnings;
 
 use Test::Simple tests => 10;
 
-use BlackBone::GPIO;
+use Device::BeagleBone::Black::GPIO;
 
 ################################################################################
 sub read_direction {
   my $pin = shift;
   my $syspath = $pin->{sysroot} . '/direction';
-  return BlackBone::File::read_word($syspath);
+  return Device::BeagleBone::Black::File::read_word($syspath);
 }
 
 ################################################################################
 sub read_value {
   my $pin = shift;
   my $syspath = $pin->{sysroot} . '/value';
-  return BlackBone::File::read_int($syspath);
+  return Device::BeagleBone::Black::File::read_int($syspath);
 }
 
 ################################################################################
@@ -26,7 +26,7 @@ sub read_value {
 # XXX this is a 'safe' pin to mess with on a stock BeagleBone
 my $pin_name = 'P9.12';
 
-my $pin = BlackBone::GPIO::export($pin_name);
+my $pin = Device::BeagleBone::Black::GPIO::export($pin_name);
 
 my $gpio = $pin->{pindef}->{gpio};
 ok(-e "/sys/class/gpio/gpio$gpio", "gpio $gpio is visible");
@@ -47,6 +47,6 @@ $pin->low();
 ok(! $pin->value, 'pin is low');
 ok(! read_value($pin), 'pin sysfs value is low');
 
-BlackBone::GPIO::unexport($pin_name);
+Device::BeagleBone::Black::GPIO::unexport($pin_name);
 ok(! -e "/sys/class/gpio/gpio$gpio", "gpio $gpio is invisible");
 

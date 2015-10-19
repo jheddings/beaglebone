@@ -1,4 +1,4 @@
-package BlackBone::File;
+package Device::BeagleBone::Black::File;
 
 use strict;
 use warnings;

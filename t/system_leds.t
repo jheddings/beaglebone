@@ -3,7 +3,6 @@
 use strict;
 use warnings;
 
-use File::Spec;
 use Test::Simple tests => 13;
 
 use BlackBone::LEDS;
@@ -12,28 +11,28 @@ use BlackBone::LEDS::SystemLED;
 ################################################################################
 sub read_trigger {
   my $led = shift;
-  my $syspath = File::Spec->catfile($led->{sysroot}, 'trigger');
+  my $syspath = $led->{sysroot} . '/trigger';
   return BlackBone::File::read_expr($syspath, qr/\[(.*)\]/);
 }
 
 ################################################################################
 sub read_bright {
   my $led = shift;
-  my $syspath = File::Spec->catfile($led->{sysroot}, 'brightness');
+  my $syspath = $led->{sysroot} . '/brightness';
   return BlackBone::File::read_int($syspath);
 }
 
 ################################################################################
 sub read_delay_on {
   my $led = shift;
-  my $syspath = File::Spec->catfile($led->{sysroot}, 'delay_on');
+  my $syspath = $led->{sysroot} . '/delay_on';
   return BlackBone::File::read_int($syspath);
 }
 
 ################################################################################
 sub read_delay_off {
   my $led = shift;
-  my $syspath = File::Spec->catfile($led->{sysroot}, 'delay_off');
+  my $syspath = $led->{sysroot} . '/delay_off';
   return BlackBone::File::read_int($syspath);
 }
 

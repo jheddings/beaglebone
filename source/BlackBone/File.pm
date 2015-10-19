@@ -1,4 +1,4 @@
-package BlackBone::IO;
+package BlackBone::File;
 
 use strict;
 use warnings;
@@ -26,6 +26,21 @@ sub read_file {
   close($fh);
 
   return $text;
+}
+
+################################################################################
+sub read_expr {
+  my ($file, $regex) = @_;
+
+  $_ = read_file($file);
+  m/$regex/;
+
+  return $1;
+}
+
+################################################################################
+sub read_int {
+  return read_expr(shift, qr/(\d+)/);
 }
 
 1;  ## EOM

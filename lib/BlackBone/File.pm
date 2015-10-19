@@ -17,7 +17,7 @@ sub write_file {
 ################################################################################
 sub read_until {
   my ($file, $eof) = @_;
-  local $/= $eof;
+  local $/ = $eof;
 
   open(my $fh, '<', $file) or die "Could not open file for reading '$file': $!";
 
@@ -31,12 +31,16 @@ sub read_until {
 
 ################################################################################
 sub read_file {
-  return read_until(shift, undef);
+  my $file = shift;
+  return read_until($file, undef);
 }
 
 ################################################################################
 sub read_word {
-  return read_until(shift, ' ');
+  my $file = shift;
+  my $raw = read_until($file, ' ');
+  my ($word) = split /\s/, $raw;
+  return $word;
 }
 
 ################################################################################

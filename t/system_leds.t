@@ -12,28 +12,28 @@ use BlackBone::LEDS::SystemLED;
 ################################################################################
 sub read_trigger {
   my $led = shift;
-  my $syspath = File::Spec->catfile('/sys/class/leds', $led->{name}, 'trigger');
+  my $syspath = File::Spec->catfile($led->{sysroot}, 'trigger');
   return BlackBone::File::read_expr($syspath, qr/\[(.*)\]/);
 }
 
 ################################################################################
 sub read_bright {
   my $led = shift;
-  my $syspath = File::Spec->catfile('/sys/class/leds', $led->{name}, 'brightness');
+  my $syspath = File::Spec->catfile($led->{sysroot}, 'brightness');
   return BlackBone::File::read_int($syspath);
 }
 
 ################################################################################
 sub read_delay_on {
   my $led = shift;
-  my $syspath = File::Spec->catfile('/sys/class/leds', $led->{name}, 'delay_on');
+  my $syspath = File::Spec->catfile($led->{sysroot}, 'delay_on');
   return BlackBone::File::read_int($syspath);
 }
 
 ################################################################################
 sub read_delay_off {
   my $led = shift;
-  my $syspath = File::Spec->catfile('/sys/class/leds', $led->{name}, 'delay_off');
+  my $syspath = File::Spec->catfile($led->{sysroot}, 'delay_off');
   return BlackBone::File::read_int($syspath);
 }
 

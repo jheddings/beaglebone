@@ -44,29 +44,26 @@ sub new {
 ################################################################################
 sub on {
   my $self = shift;
-
-  $self->trigger('none');
   $self->brightness($self->max_bright);
 }
 
 ################################################################################
 sub off {
   my $self = shift;
-
-  $self->trigger('none');
   $self->brightness("0");
 }
 
 ################################################################################
 sub is_on {
   my $self = shift;
-  return $self->brightness gt 0;
+  return ($self->brightness gt 0);
 }
 
 ################################################################################
 sub blink {
   my ($self, $on_ms, $off_ms) = @_;
 
+  # we need to set the trigger to ensure the delay_X entries appear
   $self->trigger('timer');
 
   BlackBone::File::write_file($self->syspath('delay_on'), $on_ms);

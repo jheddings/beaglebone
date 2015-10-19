@@ -15,9 +15,9 @@ sub write_file {
 }
 
 ################################################################################
-sub read_file {
-  my $file = shift;
-  local $/= undef;
+sub read_until {
+  my ($file, $eof) = @_;
+  local $/= $eof;
 
   open(my $fh, '<', $file) or die "Could not open file for reading '$file': $!";
 
@@ -25,7 +25,18 @@ sub read_file {
 
   close($fh);
 
+  chomp $text;
   return $text;
+}
+
+################################################################################
+sub read_file {
+  return read_until(shift, undef);
+}
+
+################################################################################
+sub read_word {
+  return read_until(shift, ' ');
 }
 
 ################################################################################

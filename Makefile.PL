@@ -1,6 +1,9 @@
 #!/usr/bin/perl -w
 
 use 5.014;
+use strict;
+use warnings;
+
 use ExtUtils::MakeMaker;
 
 WriteMakefile(

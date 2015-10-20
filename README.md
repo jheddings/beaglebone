@@ -17,5 +17,5 @@ make install
 
 Alternatively, you may install the latest verion of the module directly from the source:
 ```
-curl -fsSL https://raw.githubusercontent.com/jheddings/beaglebone/master/install | sh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/jheddings/beaglebone/master/install)"
 ```

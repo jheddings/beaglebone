@@ -1,34 +1,83 @@
 #!/bin/sh
 
 SOURCE_REPO='https://github.com/jheddings/beaglebone'
-STAGING_DIR=`mktemp -d`
+
+# environment variables that affect the script
+confirm=${confirm:=no}
+dryrun=${dryrun:=no}
+skiptest=${skiptest:=no}
+
+################################################################################
+msg() {
+  echo "## $@ ##"
+}
+
+################################################################################
+run() {
+  echo ">> $@"
+
+  if [ "$dryrun" != 'yes' ] ; then
+    $@
+  fi
+}
+
+################################################################################
+prompt_to_continue() {
+  while read -p 'Continue? [yn] ' confirm ; do
+    case $confirm in
+      [Yy]*) break ;;
+      [Nn]*) exit ;;
+      *) echo "Please answer yes or no." ;;
+    esac
+  done
+}
+
+################################################################################
+## MAIN ENTRY
+echo '** Welcome to the Device::BeagleBone self-installer **'
+echo 'This will install the Perl BeagleBone support module'
+
+if [ "$confirm" != 'yes' ] ; then
+  prompt_to_continue
+fi
 
 ################################################################################
 # make sure we exit cleanly on any error
 set -e
 
 cleanup() {
-  if [ -d "$STAGING_DIR" ] ; then
+  if [ -n "$STAGING_DIR" -a -d "$STAGING_DIR" ] ; then
     echo "removing staging folder: $STAGING_DIR"
     rm -Rf "$STAGING_DIR"
   fi
 }
 
+STAGING_DIR=`mktemp -d`
 trap cleanup EXIT
 
 ################################################################################
 # start the installation
 
-# download the repo...
-echo "staging installation in $STAGING_DIR"
-git clone "$SOURCE_REPO" "$STAGING_DIR"
+# download the repo
+msg "staging installation in $STAGING_DIR"
+run git clone "$SOURCE_REPO" "$STAGING_DIR"
 cd "$STAGING_DIR"
 
 # setup the installation
-echo "preparing environment"
-perl Makefile.PL $MAKER_ARGS
+if [ -z "$@" ] ; then
+  msg "preparing default environment"
+else
+  msg "preparing environment using: $@"
+fi
+
+run perl Makefile.PL $@
 
 #TODO install module dependencies?
 
-echo "installing Device::BeagleBone..."
-make test && make install
+msg "installing Device::BeagleBone..."
+if [ "$skiptest" != 'yes' ] ; then
+  run make test
+fi
+
+run make install
+

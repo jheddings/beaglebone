@@ -7,20 +7,20 @@ use warnings;
 use File::Basename;
 use Device::BeagleBone::Util::SysFS;
 
-my $LEDS_SYS_PATH = '/sys/class/leds';
+use constant LEDS_SYS_PATH => '/sys/class/leds';
 
 use overload '""' => \&to_string;
 
 ################################################################################
 sub all {
-  return map { new Device::BeagleBone::Black::LEDS::SystemLED($_) } glob($LEDS_SYS_PATH . '/*');
+  return map { new Device::BeagleBone::Black::LEDS::SystemLED($_) } glob(LEDS_SYS_PATH . '/*');
 }
 
 ################################################################################
 sub get {
   my ($name) = @_;
 
-  my $sysroot = "$LEDS_SYS_PATH/$name";
+  my $sysroot = LEDS_SYS_PATH . "/$name";
 
   # TODO better error handling
   -e $sysroot or die;

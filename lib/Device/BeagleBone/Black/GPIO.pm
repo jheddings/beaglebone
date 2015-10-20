@@ -8,7 +8,7 @@ use Device::BeagleBone::Black::GPIO::Pin;
 
 my $pinmap = require Device::BeagleBone::Black::GPIO::PinMap;
 
-my $GPIO_SYS_PATH = '/sys/class/gpio';
+use constant GPIO_SYS_PATH => '/sys/class/gpio';
 
 ################################################################################
 sub export {
@@ -19,9 +19,9 @@ sub export {
   my $gpio = $pindef->{gpio};
 
   # enable the GPIO entries in sysfs
-  Device::BeagleBone::Util::SysFS::write_file("$GPIO_SYS_PATH/export", $gpio);
+  Device::BeagleBone::Util::SysFS::write_file(GPIO_SYS_PATH . '/export', $gpio);
 
-  my $syspath = "$GPIO_SYS_PATH/gpio$gpio";
+  my $syspath = GPIO_SYS_PATH . "/gpio$gpio";
   my $pin = new Device::BeagleBone::Black::GPIO::Pin($syspath);
 
   # attach the pindef reference
@@ -39,7 +39,7 @@ sub unexport {
   my $gpio = $pindef->{gpio};
 
   # enable the GPIO entries in sysfs
-  Device::BeagleBone::Util::SysFS::write_file("$GPIO_SYS_PATH/unexport", $gpio);
+  Device::BeagleBone::Util::SysFS::write_file(GPIO_SYS_PATH .'/unexport', $gpio);
 }
 
 1;  ## EOM

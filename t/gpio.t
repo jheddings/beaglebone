@@ -6,19 +6,20 @@ use warnings;
 use Test::Simple tests => 10;
 
 use Device::BeagleBone::Black::GPIO;
+use Device::BeagleBone::Util::SysFS qw( :read );
 
 ################################################################################
 sub read_direction {
   my $pin = shift;
   my $syspath = $pin->{sysroot} . '/direction';
-  return Device::BeagleBone::Util::SysFS::read_word($syspath);
+  return read_word($syspath);
 }
 
 ################################################################################
 sub read_value {
   my $pin = shift;
   my $syspath = $pin->{sysroot} . '/value';
-  return Device::BeagleBone::Util::SysFS::read_int($syspath);
+  return read_int($syspath);
 }
 
 ################################################################################

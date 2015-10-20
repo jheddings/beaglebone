@@ -3,6 +3,14 @@ package Device::BeagleBone::Util::SysFS;
 use strict;
 use warnings;
 
+use Exporter::Easy (
+  TAGS => [
+    read => [qw( read_file read_until read_word read_int read_expr )],
+    write => [qw( write_file )],
+    all => [qw( :read :write )],
+  ]
+);
+
 ################################################################################
 sub write_file {
   my $file = shift;

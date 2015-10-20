@@ -3,7 +3,7 @@ package Device::BeagleBone::Black::GPIO::Pin;
 use strict;
 use warnings;
 
-use Device::BeagleBone::Util::SysFS;
+use Device::BeagleBone::Util::SysFS qw( :all );
 
 ################################################################################
 sub new {
@@ -49,10 +49,10 @@ sub _regwr {
 
   # if the user set a value, write it here
   if (defined $val and length $val) {
-    Device::BeagleBone::Util::SysFS::write_file($syspath, $val);
+    write_file($syspath, $val);
   }
 
-  return Device::BeagleBone::Util::SysFS::read_word($syspath);
+  return read_word($syspath);
 }
 
 1;  ## EOM

@@ -3,6 +3,8 @@ package Device::BeagleBone::Black::LEDS;
 use strict;
 use warnings;
 
+use Device::BeagleBone::Black::LEDS::SystemLED;
+
 ################################################################################
 sub restore_defaults {
   my $usr0_led = Device::BeagleBone::Black::LEDS::SystemLED::get('beaglebone:green:usr0');

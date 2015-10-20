@@ -24,9 +24,9 @@ sub name {
 }
 
 ################################################################################
-sub on { }
-sub off { }
-sub blink { }
+sub on { die('abstract method'); }
+sub off { die('abstract method'); }
+sub blink { die('abstract method'); }
 
 ################################################################################
 sub to_string {

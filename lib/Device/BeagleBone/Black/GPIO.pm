@@ -3,7 +3,7 @@ package Device::BeagleBone::Black::GPIO;
 use strict;
 use warnings;
 
-use Device::BeagleBone::Util::SysFS;
+use Device::BeagleBone::Util::SysFS qw( :write );
 use Device::BeagleBone::Black::GPIO::Pin;
 
 my $pinmap = require Device::BeagleBone::Black::GPIO::PinMap;
@@ -16,14 +16,13 @@ sub export {
 
   my $pindef = $pinmap->{$pinref};
   my $gpio = $pindef->{gpio};
+  my $syspath = GPIO_SYS_PATH . "/gpio$gpio";
 
   # TODO better error checking
   $gpio or die "Invalid pin reference: $pinref\n";
 
-  my $syspath = GPIO_SYS_PATH . "/gpio$gpio";
-
   # enable the GPIO entries in sysfs if needed
-  -d $syspath or Device::BeagleBone::Util::SysFS::write_file(GPIO_SYS_PATH . '/export', $gpio);
+  -d $syspath or write_file(GPIO_SYS_PATH . '/export', $gpio);
 
   my $pin = new Device::BeagleBone::Black::GPIO::Pin($syspath);
 
@@ -43,8 +42,8 @@ sub unexport {
   # TODO better error checking
   $gpio or die "Invalid pin reference: $pinref\n";
 
-  # enable the GPIO entries in sysfs
-  Device::BeagleBone::Util::SysFS::write_file(GPIO_SYS_PATH .'/unexport', $gpio);
+  # disable the GPIO entries in sysfs
+  write_file(GPIO_SYS_PATH . '/unexport', $gpio);
 }
 
 ################################################################################

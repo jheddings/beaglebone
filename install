@@ -1,0 +1,34 @@
+#!/bin/sh
+
+SOURCE_REPO='https://github.com/jheddings/beaglebone'
+STAGING_DIR=`mktemp -d`
+
+################################################################################
+# make sure we exit cleanly on any error
+set -e
+
+cleanup() {
+  if [ -d "$STAGING_DIR" ] ; then
+    echo "removing staging folder: $STAGING_DIR"
+    rm -Rf "$STAGING_DIR"
+  fi
+}
+
+trap cleanup EXIT
+
+################################################################################
+# start the installation
+
+# download the repo...
+echo "staging installation in $STAGING_DIR"
+git clone "$SOURCE_REPO" "$STAGING_DIR"
+cd "$STAGING_DIR"
+
+# setup the installation
+echo "preparing environment"
+perl Makefile.PL $MAKER_ARGS
+
+#TODO install module dependencies?
+
+echo "installing Device::BeagleBone..."
+make test && make install

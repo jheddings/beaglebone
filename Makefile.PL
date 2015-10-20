@@ -1,4 +1,6 @@
-use 5.014002;
+#!/usr/bin/perl -w
+
+use 5.014;
 use ExtUtils::MakeMaker;
 
 WriteMakefile(
@@ -9,3 +11,4 @@ WriteMakefile(
       'Exporter::Easy' => 0.17
     },
 );
+

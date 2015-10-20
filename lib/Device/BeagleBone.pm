@@ -1,6 +1,6 @@
 package Device::BeagleBone;
 
-use 5.018002;
+use 5.014002;
 use strict;
 use warnings;
 

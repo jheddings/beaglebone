@@ -6,7 +6,7 @@ Support library for BeagleBone projects in Perl.
 Eventually, I hope that this will be a part of CPAN...  Until that time (or if you prefer
 to install the module manually), use one of the methods described below.
 
-After cloning the repository, run the following commands:
+After cloning the repository, run the following commands (see [ExtUtils::MakeMaker](http://perldoc.perl.org/ExtUtils/MakeMaker.html) for customizing the installation):
 
 ```
 perl Makefile.PL

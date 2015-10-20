@@ -14,14 +14,17 @@ use constant GPIO_SYS_PATH => '/sys/class/gpio';
 sub export {
   my $pinref = shift;
 
-  # TODO better error checking
   my $pindef = $pinmap->{$pinref};
   my $gpio = $pindef->{gpio};
 
-  # enable the GPIO entries in sysfs
-  Device::BeagleBone::Util::SysFS::write_file(GPIO_SYS_PATH . '/export', $gpio);
+  # TODO better error checking
+  $gpio or die "Invalid pin reference: $pinref\n";
 
   my $syspath = GPIO_SYS_PATH . "/gpio$gpio";
+
+  # enable the GPIO entries in sysfs if needed
+  -d $syspath or Device::BeagleBone::Util::SysFS::write_file(GPIO_SYS_PATH . '/export', $gpio);
+
   my $pin = new Device::BeagleBone::Black::GPIO::Pin($syspath);
 
   # attach the pindef reference
@@ -34,9 +37,11 @@ sub export {
 sub unexport {
   my $pinref = shift;
 
-  # TODO better error checking
   my $pindef = $pinmap->{$pinref};
   my $gpio = $pindef->{gpio};
+
+  # TODO better error checking
+  $gpio or die "Invalid pin reference: $pinref\n";
 
   # enable the GPIO entries in sysfs
   Device::BeagleBone::Util::SysFS::write_file(GPIO_SYS_PATH .'/unexport', $gpio);

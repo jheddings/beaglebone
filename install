@@ -19,6 +19,8 @@ run() {
   if [ "$dryrun" != 'yes' ] ; then
     $@
   fi
+
+  echo '<<'
 }
 
 ################################################################################
@@ -35,7 +37,10 @@ prompt_to_continue() {
 ################################################################################
 ## MAIN ENTRY
 echo '** Welcome to the Device::BeagleBone self-installer **'
-echo 'This will install the Perl BeagleBone support module'
+echo
+echo 'This will install the Perl BeagleBone device module'
+echo "from $SOURCE_REPO"
+echo
 
 if [ "$confirm" != 'yes' ] ; then
   prompt_to_continue

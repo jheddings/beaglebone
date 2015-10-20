@@ -19,6 +19,12 @@ make install
 
 See [ExtUtils::MakeMaker](http://perldoc.perl.org/ExtUtils/MakeMaker.html) for customizing the installation.  Parameters may be optionally passed to `Makefile.PL` to alter the behavior.  The most common parameter to set is `INSTALL_BASE` which sets the top of the installation target.
 
+For example, to change the installation location to use your home directory instead of the system Perl lib, change the first line of the steps to:
+```
+perl Makefile.PL INSTALL_BASE=~/Device-BeagleBone
+```
+
+
 ### Self-Installer
 
 Alternatively, you may install the latest verion of the module directly from the source:

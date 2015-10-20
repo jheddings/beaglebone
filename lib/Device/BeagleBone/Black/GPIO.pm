@@ -12,10 +12,10 @@ use constant GPIO_SYS_PATH => '/sys/class/gpio';
 
 ################################################################################
 sub export {
-  my $name = shift;
+  my $pinref = shift;
 
   # TODO better error checking
-  my $pindef = $pinmap->{$name};
+  my $pindef = $pinmap->{$pinref};
   my $gpio = $pindef->{gpio};
 
   # enable the GPIO entries in sysfs
@@ -32,14 +32,26 @@ sub export {
 
 ################################################################################
 sub unexport {
-  my $name = shift;
+  my $pinref = shift;
 
   # TODO better error checking
-  my $pindef = $pinmap->{$name};
+  my $pindef = $pinmap->{$pinref};
   my $gpio = $pindef->{gpio};
 
   # enable the GPIO entries in sysfs
   Device::BeagleBone::Util::SysFS::write_file(GPIO_SYS_PATH .'/unexport', $gpio);
+}
+
+################################################################################
+sub P8 {
+  my $pin = shift;
+  return export("P8.$pin");
+}
+
+################################################################################
+sub P9 {
+  my $pin = shift;
+  return export("P9.$pin");
 }
 
 1;  ## EOM

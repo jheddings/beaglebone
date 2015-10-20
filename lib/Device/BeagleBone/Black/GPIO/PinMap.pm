@@ -1,10 +1,6 @@
 package Device::BeagleBone::Black::GPIO::PinMap;
 
 my $pinmap = {
-  'USR0' => { gpio => 53, name => 'USR0' },
-  'USR1' => { gpio => 54, name => 'USR1' },
-  'USR2' => { gpio => 55, name => 'USR2' },
-  'USR3' => { gpio => 56, name => 'USR3' },
   'P8.1' => { name => 'DGND' },
   'P8.2' => { name => 'DGND' },
   'P8.3' => { gpio => 38, name => 'GPIO1_6' },

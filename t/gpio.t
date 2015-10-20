@@ -24,9 +24,9 @@ sub read_value {
 ################################################################################
 
 # XXX this is a 'safe' pin to mess with on a stock BeagleBone
-my $pin_name = 'P9.12';
+my $pinref = 'P9.12';
 
-my $pin = Device::BeagleBone::Black::GPIO::export($pin_name);
+my $pin = Device::BeagleBone::Black::GPIO::export($pinref);
 
 my $gpio = $pin->{pindef}->{gpio};
 ok(-e "/sys/class/gpio/gpio$gpio", "gpio $gpio is visible");
@@ -47,6 +47,6 @@ $pin->low();
 ok(! $pin->value, 'pin is low');
 ok(! read_value($pin), 'pin sysfs value is low');
 
-Device::BeagleBone::Black::GPIO::unexport($pin_name);
+Device::BeagleBone::Black::GPIO::unexport($pinref);
 ok(! -e "/sys/class/gpio/gpio$gpio", "gpio $gpio is invisible");
 

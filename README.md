@@ -17,7 +17,7 @@ make test
 make install
 ```
 
-See [ExtUtils::MakeMaker](http://perldoc.perl.org/ExtUtils/MakeMaker.html) for customizing the installation.  Parameters be be optionally passed to `Makefile.PL` to alter the behavior.  The most common parameter to set is `INSTALL_BASE` which sets the top of the installation target.
+See [ExtUtils::MakeMaker](http://perldoc.perl.org/ExtUtils/MakeMaker.html) for customizing the installation.  Parameters may be optionally passed to `Makefile.PL` to alter the behavior.  The most common parameter to set is `INSTALL_BASE` which sets the top of the installation target.
 
 ### Self-Installer
 

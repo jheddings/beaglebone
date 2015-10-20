@@ -44,4 +44,4 @@ The self-installer will also honor some environment variables.
 * `dryrun=(yes|no)` will print the steps in the installer without actually doing any work - defaults to 'no'
 * `skiptest=(yes|no|` will skip the module tests before installing - defaults to 'no'
 
-Note: the link here is shortened for convenience.  It is simply a redirect to the [`install`](https://raw.githubusercontent.com/Homebrew/install/master/install) script in this repository.  If you are concerned about the content, please visit (http://bit.ly/devbb_inst) to check before installing.
+Note: the link here is shortened for convenience.  It is simply a redirect to the [`install`](https://raw.githubusercontent.com/jheddings/beaglebone/master/install) script in this repository.  If you are concerned about the content, please visit (http://bit.ly/devbb_inst) to check before installing.

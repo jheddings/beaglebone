@@ -5,12 +5,16 @@ use warnings;
 
 use Device::BeagleBone::Util::SysFS qw( :all );
 
+use overload '""' => \&to_string;
+
 ################################################################################
 sub new {
-  my ($class, $sysroot) = @_;
+  my ($class, $name, $sysroot, $muxfile) = @_;
 
   my $self = {
+    name => $name,
     sysroot => $sysroot,
+    muxfile => $muxfile,
   };
 
   bless $self, $class;
@@ -53,6 +57,12 @@ sub _regwr {
   }
 
   return read_word($syspath);
+}
+
+################################################################################
+sub to_string {
+  my $self = shift;
+  return $self->{name};
 }
 
 1;  ## EOM

@@ -16,6 +16,7 @@ sub export {
 
   my $pindef = $pinmap->{$pinref};
   my $gpio = $pindef->{gpio};
+  my $name = $pindef->{name};
   my $syspath = GPIO_SYS_PATH . "/gpio$gpio";
 
   # TODO better error checking
@@ -24,7 +25,7 @@ sub export {
   # enable the GPIO entries in sysfs if needed
   -d $syspath or write_file(GPIO_SYS_PATH . '/export', $gpio);
 
-  my $pin = new Device::BeagleBone::Black::GPIO::Pin($syspath);
+  my $pin = new Device::BeagleBone::Black::GPIO::Pin($name, $syspath);
 
   # attach the pindef reference
   $pin->{pindef} = $pindef;

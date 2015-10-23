@@ -13,7 +13,7 @@ use Device::BeagleBone::Util::SysFS qw( :read );
 
 # XXX be sure to use a safe debug pin...
 my $pin = Device::BeagleBone::Black::GPIO::export('P9.12');
-my $led = Device::BeagleBone::Black::LED::PinLED($pin);
+my $led = new Device::BeagleBone::Black::LEDS::PinLED($pin);
 
 # wrapping as an LED should force the pic dorection 'out'
 ok($pin->direction eq 'out', 'pin direction read back as out');

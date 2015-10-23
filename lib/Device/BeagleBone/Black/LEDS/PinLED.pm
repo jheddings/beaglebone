@@ -1,4 +1,5 @@
 package Device::BeagleBone::Black::LEDS::PinLED;
+use base qw(Device::BeagleBone::Black::LEDS::LED);
 
 use strict;
 use warnings;

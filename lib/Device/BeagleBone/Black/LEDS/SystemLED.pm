@@ -9,8 +9,6 @@ use Device::BeagleBone::Util::SysFS qw( :all );
 
 use constant LEDS_SYS_PATH => '/sys/class/leds';
 
-use overload '""' => \&to_string;
-
 ################################################################################
 sub all {
   return map { new Device::BeagleBone::Black::LEDS::SystemLED($_) } glob(LEDS_SYS_PATH . '/*');
@@ -105,12 +103,6 @@ sub trigger {
 
   # the trigger entry has brackets around the current value
   return read_expr($syspath, qr/\[(.*)\]/);
-}
-
-################################################################################
-sub to_string {
-  my $self = shift;
-  return $self->name;
 }
 
 1;  ## EOM

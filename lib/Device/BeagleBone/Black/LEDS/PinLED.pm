@@ -1,38 +1,38 @@
-package Device::BeagleBone::Black::LEDS::LED;
+package Device::BeagleBone::Black::LEDS::PinLED;
 
 use strict;
 use warnings;
 
-use overload '""' => \&to_string;
-
 ################################################################################
 sub new {
-  my $class = shift;
+  my ($class, $pin) = @_;
 
-  my $self = {
-    name => shift,
-  };
+  my $name = $pin->name;
 
-  bless $self, $class;
+  my $self = $class->SUPER::new($name);
+  $self->{pin} = $pin;
+
+  $pin->direction('out');
+
   return $self;
 }
 
 ################################################################################
-sub name {
+sub is_on {
   my $self = shift;
-  return $self->{name};
+  return ($self->{pin}->value gt 0);
 }
 
 ################################################################################
-sub on { die('abstract method'); }
-sub off { die('abstract method'); }
-sub is_on { die('abstract method'); }
-sub blink { die('abstract method'); }
+sub on {
+  my $self = shift;
+  $self->{pin}->high();
+}
 
 ################################################################################
-sub to_string {
+sub off {
   my $self = shift;
-  return $self->{name};
+  $self->{pin}->low();
 }
 
 1;  ## EOM

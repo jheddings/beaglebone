@@ -1,4 +1,4 @@
-package Device::BeagleBone::Black::LEDS::LED;
+package Device::BeagleBone::LED;
 
 use strict;
 use warnings;

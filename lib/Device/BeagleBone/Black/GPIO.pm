@@ -4,9 +4,9 @@ use strict;
 use warnings;
 
 use Device::BeagleBone::Util::SysFS qw( :write );
-use Device::BeagleBone::Black::GPIO::Pin;
+use Device::BeagleBone::Pin;
 
-my $pinmap = require Device::BeagleBone::Black::GPIO::PinMap;
+my $pinmap = require Device::BeagleBone::Black::PinMap;
 
 use constant GPIO_SYS_PATH => '/sys/class/gpio';
 
@@ -25,7 +25,7 @@ sub export {
   # enable the GPIO entries in sysfs if needed
   -d $syspath or write_file(GPIO_SYS_PATH . '/export', $gpio);
 
-  my $pin = new Device::BeagleBone::Black::GPIO::Pin($name, $syspath);
+  my $pin = new Device::BeagleBone::Pin($name, $syspath);
 
   # attach the pindef reference
   $pin->{pindef} = $pindef;

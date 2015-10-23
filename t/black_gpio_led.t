@@ -6,14 +6,14 @@ use warnings;
 use Test::Simple tests => 5;
 
 use Device::BeagleBone::Black::GPIO;
-use Device::BeagleBone::Black::LEDS::PinLED;
+use Device::BeagleBone::PinLED;
 use Device::BeagleBone::Util::SysFS qw( :read );
 
 ################################################################################
 
 # XXX be sure to use a safe debug pin...
 my $pin = Device::BeagleBone::Black::GPIO::export('P9.12');
-my $led = new Device::BeagleBone::Black::LEDS::PinLED($pin);
+my $led = new Device::BeagleBone::PinLED($pin);
 
 # wrapping as an LED should force the pic dorection 'out'
 ok($pin->direction eq 'out', 'pin direction read back as out');

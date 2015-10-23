@@ -1,4 +1,4 @@
-package Device::BeagleBone::Black::GPIO::Pin;
+package Device::BeagleBone::Pin;
 
 use strict;
 use warnings;

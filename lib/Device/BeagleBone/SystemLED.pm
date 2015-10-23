@@ -1,5 +1,5 @@
-package Device::BeagleBone::Black::LEDS::SystemLED;
-use base qw(Device::BeagleBone::Black::LEDS::LED);
+package Device::BeagleBone::SystemLED;
+use base qw(Device::BeagleBone::LED);
 
 use strict;
 use warnings;
@@ -11,7 +11,7 @@ use constant LEDS_SYS_PATH => '/sys/class/leds';
 
 ################################################################################
 sub all {
-  return map { new Device::BeagleBone::Black::LEDS::SystemLED($_) } glob(LEDS_SYS_PATH . '/*');
+  return map { new Device::BeagleBone::SystemLED($_) } glob(LEDS_SYS_PATH . '/*');
 }
 
 ################################################################################
@@ -23,7 +23,7 @@ sub get {
   # TODO better error handling
   -e $sysroot or die;
 
-  return new Device::BeagleBone::Black::LEDS::SystemLED($sysroot);
+  return new Device::BeagleBone::SystemLED($sysroot);
 }
 
 ################################################################################

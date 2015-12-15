@@ -6,6 +6,24 @@ use warnings;
 
 our $VERSION = '0.01';
 
+use Sys::Hostname;
+use Device::BeagleBone::Util::SysFS qw( :read );
+
+################################################################################
+sub temperature {
+  # FIXME this may not be consistent across all 'bones
+  my $path = '/sys/class/hwmon/hwmon0/device/temp1_input';
+  read_int($path) / 1000.0;
+}
+
+################################################################################
+sub uptime {
+  read_word('/proc/uptime');
+}
+
+################################################################################
+*name = \&hostname;
+
 1;  ## EOM
 __END__
 

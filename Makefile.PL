@@ -15,3 +15,9 @@ WriteMakefile(
     },
 );
 
+sub MY::postamble {
+    return <<'MAKE_FRAG';
+%.dtbo : %.dts
+	dtc -O dtb -o $@ -b 0 -@ $<
+MAKE_FRAG
+}

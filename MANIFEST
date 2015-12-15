@@ -11,9 +11,10 @@ lib/Device/BeagleBone/Util/SysFS.pm
 Makefile.PL
 MANIFEST
 README.md
-t/black_gpio.t
 t/black_gpio_led.t
+t/black_gpio_out.t
 t/black_leds.t
+t/core.t
 t/data/basic_text
 t/data/integer
 t/data/mixed_data

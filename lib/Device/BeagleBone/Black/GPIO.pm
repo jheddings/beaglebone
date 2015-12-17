@@ -45,6 +45,8 @@ sub unexport {
 
   # disable the GPIO entries in sysfs
   write_file(GPIO_SYS_PATH . '/unexport', $gpio);
+
+  return;
 }
 
 ################################################################################

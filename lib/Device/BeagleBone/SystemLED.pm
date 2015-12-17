@@ -42,12 +42,16 @@ sub new {
 sub on {
   my $self = shift;
   $self->brightness($self->max_bright);
+
+  return;
 }
 
 ################################################################################
 sub off {
   my $self = shift;
   $self->brightness("0");
+
+  return;
 }
 
 ################################################################################
@@ -65,6 +69,8 @@ sub blink {
 
   write_file($self->{sysroot} . '/delay_on', $on_ms);
   write_file($self->{sysroot} . '/delay_off', $off_ms);
+
+  return;
 }
 
 ################################################################################

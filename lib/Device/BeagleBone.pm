@@ -13,12 +13,14 @@ use Device::BeagleBone::Util::SysFS qw( :read );
 sub temperature {
   # FIXME this may not be consistent across all 'bones
   my $path = '/sys/class/hwmon/hwmon0/device/temp1_input';
-  read_int($path) / 1000.0;
+  my $temp = read_int($path);
+  return $temp / 1000.0;
 }
 
 ################################################################################
 sub uptime {
-  read_word('/proc/uptime');
+  my $uptime = read_word('/proc/uptime');
+  return $uptime;
 }
 
 ################################################################################

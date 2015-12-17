@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::Simple tests => 7;
+use Test::Simple tests => 9;
 
 use Device::BeagleBone::Black::GPIO;
 use Device::BeagleBone::PinLED;
@@ -26,9 +26,11 @@ $led->off();
 ok(! $pin->value, 'pin value is 0');
 ok(! $led->is_on, 'led is off');
 
-$led->toggle();
-ok($pin->value, 'pin toggled on');
+my $on = $led->toggle();
+ok($pin->value, 'pin toggled to 1');
+ok($on, 'pin toggled on');
 
-$led->toggle();
-ok(! $pin->value, 'pin toggled off');
+$on = $led->toggle();
+ok(! $pin->value, 'pin toggled to 0');
+ok(! $on, 'pin toggled off');
 

@@ -18,6 +18,8 @@ sub restore_defaults {
 
   my $usr3_led = Device::BeagleBone::SystemLED::get('beaglebone:green:usr3');
   $usr3_led->trigger('mmc1');
+
+  return;
 }
 
 1;  ## EOM

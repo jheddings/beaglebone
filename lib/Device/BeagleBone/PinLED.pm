@@ -13,7 +13,9 @@ sub new {
   my $self = $class->SUPER::new($name);
   $self->{pin} = $pin;
 
-  $pin->direction('out');
+  if ($pin->direction ne 'out') {
+    $pin->direction('out');
+  }
 
   return $self;
 }

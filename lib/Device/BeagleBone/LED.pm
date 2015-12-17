@@ -27,7 +27,17 @@ sub name {
 sub on { die('abstract method'); }
 sub off { die('abstract method'); }
 sub is_on { die('abstract method'); }
-sub blink { die('abstract method'); }
+
+################################################################################
+sub toggle {
+  my $self = shift;
+
+  if ($self->is_on) {
+    $self->off();
+  } else {
+    $self->on();
+  }
+}
 
 ################################################################################
 sub to_string {
